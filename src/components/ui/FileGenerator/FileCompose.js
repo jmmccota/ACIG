@@ -8,8 +8,7 @@ $end
 $system mwords=1200 $end
 $guess guess=huckel $end
 $data
-MEF-reagente+5
-`;
+MEF-reagente+5`;
 export const dict = (val) => ({
   1: `H    1.0    ${val}
   S   3

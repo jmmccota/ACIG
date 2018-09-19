@@ -11,7 +11,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Menu from '@material-ui/icons/Menu';
 import red from '@material-ui/core/colors/red';
 import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
-import SearchHeader from './SearchHeader';
 
 const styles = theme => ({
   root: {
