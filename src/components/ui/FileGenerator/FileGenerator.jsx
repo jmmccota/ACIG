@@ -10,40 +10,42 @@ export class FileGenerator extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      fileReaded: undefined,
-      fileName: undefined,
+      fileReaded: [],
+      fileName: [],
     }
   }
 
   uploadFile = (event) => {
-    let file = event.target.files[0];
-    let reader = new FileReader();
-    if (file) {
-      reader.readAsText(file);
-      reader.onloadend = (e) => {
-        const { result } = reader;
-        let ret = head + '\r\n\r\n';
-        const lines = result.split(/[\r\n]+/g);
-        for (const line of lines) {
-          const lineSplited = line.replace(/\s\s+/g, ' ').split(' ');
-          if (lineSplited.length > 1) {
-            const val = lineSplited.slice(1, lineSplited.length).join('    ')
-            ret += dict(val)[lineSplited[0]] + '\r\n\r\n';
-            console.log(ret);
+    let files = event.target.files;
+    for (const file of files) {
+      let reader = new FileReader();
+      if (file) {
+        reader.readAsText(file);
+        reader.onloadend = (e) => {
+          const { result } = reader;
+          let ret = head + '\r\n';
+          const lines = result.split(/[\r\n]+/g);
+          for (const line of lines) {
+            const lineSplited = line.replace(/\s\s+/g, ' ').split(' ');
+            if (lineSplited.length > 1) {
+              const val = lineSplited.slice(1, lineSplited.length).join('    ')
+              ret += dict(val)[lineSplited[0]] + '\r\n\r\n';
+              console.log(ret);
+            }
           }
-        }
-        ret += tail;
-        this.setState({
-          fileReaded: ret,
-        });
-      };
-      this.setState({ fileName: file.name.split('.').slice(0, -1).join('.'), });
+          ret += tail;
+          this.state.fileReaded.push(ret);
+        };
+        this.state.fileName.push(file.name.split('.').slice(0, -1).join('.'));
+      }
     }
   }
 
   downloadFile = (event) => {
-    const fileToSave = new File([this.state.fileReaded], `${this.state.fileName}.inp`, { type: "text/plain;charset=utf-8" });
-    saveAs(fileToSave);
+    for (let i = 0; i < this.state.fileName.length; i++) {
+      const fileToSave = new File([this.state.fileReaded[i]], `${this.state.fileName[i]}.inp`, { type: "text/plain;charset=utf-8" });
+      saveAs(fileToSave);
+    }
   }
 
   render() {
@@ -53,6 +55,7 @@ export class FileGenerator extends React.Component {
           <CardContent>
             <input type="file"
               name="myFile"
+              multiple
               onChange={this.uploadFile} />
             {this.state.fileReaded &&
               <ExpansionPanel>
