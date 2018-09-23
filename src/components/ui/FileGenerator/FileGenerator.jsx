@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Card, CardContent, CardActions, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
+import { Button, Card, CardContent, CardActions, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, TextField } from '@material-ui/core';
 import { Grid } from 'react-flexbox-grid';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { saveAs } from 'file-saver/FileSaver';
@@ -12,6 +12,7 @@ export class FileGenerator extends React.Component {
     this.state = {
       fileReaded: [],
       fileName: [],
+      head,
     }
   }
 
@@ -23,7 +24,7 @@ export class FileGenerator extends React.Component {
         reader.readAsText(file);
         reader.onloadend = (e) => {
           const { result } = reader;
-          let ret = head + '\r\n';
+          let ret = this.state.head + '\r\n';
           const lines = result.split(/[\r\n]+/g);
           for (const line of lines) {
             const lineSplited = line.replace(/\s\s+/g, ' ').split(' ');
@@ -48,11 +49,28 @@ export class FileGenerator extends React.Component {
     }
   }
 
+  handleChangeHead = (event) => {
+    console.log(event.target.value);
+    this.setState({
+      head: event.target.value,
+    });
+  }
+
   render() {
     return (
       <Grid fluid>
         <Card>
           <CardContent>
+            <TextField
+              id="multiline-flexible"
+              label="Cabeçalho"
+              multiline
+              rows={head.split('\n').length}
+              defaultValue={head}
+              fullWidth
+              onChange={this.handleChangeHead}
+              margin="normal"
+            />
             <input type="file"
               name="myFile"
               multiple
