@@ -4,9 +4,9 @@ import { Grid } from 'react-flexbox-grid';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { saveAs } from 'file-saver/FileSaver';
 import { head, dict, tail } from './FileCompose';
-import './FileGenerator.css';
+import '../../../layout/CodeStyle.css';
 
-export class FileGenerator extends React.Component {
+export default class EdaDftGamessGenerator extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -31,7 +31,6 @@ export class FileGenerator extends React.Component {
             if (lineSplited.length > 1) {
               const val = lineSplited.slice(1, lineSplited.length).join('    ')
               ret += dict(val)[lineSplited[0]] + '\r\n\r\n';
-              console.log(ret);
             }
           }
           ret += tail;
