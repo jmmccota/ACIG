@@ -3,22 +3,25 @@ import { Button, Card, CardContent, CardActions, ExpansionPanel, ExpansionPanelS
 import { Grid } from 'react-flexbox-grid';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { saveAs } from 'file-saver';
-import { head, dict, tail } from './FileCompose';
+import { dict } from './FileCompose';
 import {Layout} from '../../../layout/Layout';
 import '../../../layout/CodeStyle.css';
 
 
-export default class EdaDftGamessGenerator extends React.Component {
+export default class CustomDftGenerator extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       fileReaded: [],
       fileName: [],
-      head,
+      head: '',
+      tail: ' *',
+      ignoreLines: 0,
     }
   }
 
   uploadFile = (event) => {
+    const {head, tail, ignoreLines} = this.state;
     let files = event.target.files;
     for (const file of files) {
       let reader = new FileReader();
@@ -58,6 +61,7 @@ export default class EdaDftGamessGenerator extends React.Component {
   }
 
   render() {
+    const {head, tail, ignoreLines} = this.state;
     return (
       <Layout {...this.props}>
         <Grid fluid>
@@ -65,7 +69,7 @@ export default class EdaDftGamessGenerator extends React.Component {
             <CardContent>
               <TextField
                 id="multiline-flexible"
-                label="Cabeçalho"
+                label="Início do arquivo"
                 multiline
                 rows={head.split('\n').length}
                 defaultValue={head}
@@ -73,6 +77,23 @@ export default class EdaDftGamessGenerator extends React.Component {
                 onChange={this.handleChangeHead}
                 margin="normal"
               />
+              <TextField
+                id="multiline-flexible"
+                label="Final do arquivo"
+                defaultValue={tail}
+                fullWidth
+                onChange={this.handleChangeTail}
+                margin="normal"
+              />
+              <TextField
+                id="multiline-flexible"
+                label="Ignorar linhas no início do arquivo"
+                defaultValue={ignoreLines}
+                fullWidth
+                onChange={this.handleChangeIgnoreLines}
+                margin="normal"
+              />
+
               <input type="file"
                 name="myFile"
                 multiple

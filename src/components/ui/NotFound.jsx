@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
+import { Layout } from './layout/Layout';
 
 class NotFound extends Component {
   render() {
     return (
-      <div>
-        Elemento não encontrado
+      <Layout {...this.props}>
+        <div>
+          Elemento não encontrado
       </div>
+      </Layout>
     );
   }
 }

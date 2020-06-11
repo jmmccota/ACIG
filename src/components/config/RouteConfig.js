@@ -2,7 +2,7 @@
 //import createBrowserHistory from 'history/createBrowserHistory';
 import createHashHistory from 'history/createHashHistory';
 // import { createLogger } from 'redux-logger';
-import ReactGA from 'react-ga';
+// import ReactGA from 'react-ga';
 
 // ReactGA.initialize('UA-122588772-1');
 // , {

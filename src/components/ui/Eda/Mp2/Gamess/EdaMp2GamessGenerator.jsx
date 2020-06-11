@@ -2,8 +2,9 @@ import React from 'react';
 import { Button, Card, CardContent, CardActions, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, TextField } from '@material-ui/core';
 import { Grid } from 'react-flexbox-grid';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { saveAs } from 'file-saver/FileSaver';
+import { saveAs } from 'file-saver';
 import { head, dict, tail, dict2, middle } from './FileCompose';
+import {Layout} from '../../../layout/Layout';
 import '../../../layout/CodeStyle.css';
 
 export default class EdaMp2GamessGenerator extends React.Component {
@@ -65,6 +66,7 @@ export default class EdaMp2GamessGenerator extends React.Component {
 
   render() {
     return (
+      <Layout {...this.props}>
       <Grid fluid>
         <Card>
           <CardContent>
@@ -107,6 +109,7 @@ export default class EdaMp2GamessGenerator extends React.Component {
             >Download</Button>
           </CardActions>
         </Card>
-      </Grid>);
+      </Grid>
+      </Layout>);
   }
 }

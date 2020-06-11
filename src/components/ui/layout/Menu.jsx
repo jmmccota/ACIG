@@ -1,5 +1,5 @@
 import React from 'react';
-import { ListItem, ListItemIcon, ListItemText, List, Drawer, Divider } from '@material-ui/core';
+import { ListItem, ListItemText, List, Drawer, Divider } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 export const Menu = (props) =>
@@ -17,6 +17,9 @@ export const Menu = (props) =>
       </List>
       <Divider />
       <List>
+        <ListItem button component={Link} to="/customgenerator">
+          <ListItemText primary="Personalizado" />
+        </ListItem>
         <ListItem button component={Link} to="/edadftgamess">
           <ListItemText primary="EDA DFT" />
         </ListItem>
