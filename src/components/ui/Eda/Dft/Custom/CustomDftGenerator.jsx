@@ -21,7 +21,8 @@ export default class CustomDftGenerator extends React.Component {
   }
 
   uploadFile = (event) => {
-    const {head, tail, ignoreLines} = this.state;
+    const {head, tail} = this.state;
+    const ignoreLines = this.state.ignoreLines >= 0 ? this.state.ignoreLines : 0;
     let files = event.target.files;
     for (const file of files) {
       let reader = new FileReader();
@@ -30,12 +31,14 @@ export default class CustomDftGenerator extends React.Component {
         reader.onloadend = (e) => {
           const { result } = reader;
           let ret = this.state.head + '\r\n';
-          const lines = result.split(/[\r\n]+/g);
+          const lines = result.split(/[\r\n]+/g).splice(ignoreLines);
           for (const line of lines) {
             const lineSplited = line.replace(/\s\s+/g, ' ').split(' ');
             if (lineSplited.length > 1) {
-              const val = lineSplited.slice(1, lineSplited.length).join('    ')
-              ret += dict(val)[lineSplited[0]] + '\r\n\r\n';
+              if(!isNaN(parseInt(lineSplited[0].trim()))){
+                const val = lineSplited.slice(1, lineSplited.length).join('    ')
+                ret += dict(val)[lineSplited[0]] + '\r\n\r\n';
+              }
             }
           }
           ret += tail;
@@ -53,10 +56,10 @@ export default class CustomDftGenerator extends React.Component {
     }
   }
 
-  handleChangeHead = (event) => {
+  handleChange = (pos) => (event) => {
     console.log(event.target.value);
     this.setState({
-      head: event.target.value,
+      [pos]: event.target.value,
     });
   }
 
@@ -74,7 +77,7 @@ export default class CustomDftGenerator extends React.Component {
                 rows={head.split('\n').length}
                 defaultValue={head}
                 fullWidth
-                onChange={this.handleChangeHead}
+                onChange={this.handleChange('head')}
                 margin="normal"
               />
               <TextField
@@ -82,7 +85,7 @@ export default class CustomDftGenerator extends React.Component {
                 label="Final do arquivo"
                 defaultValue={tail}
                 fullWidth
-                onChange={this.handleChangeTail}
+                onChange={this.handleChange('tail')}
                 margin="normal"
               />
               <TextField
@@ -90,7 +93,9 @@ export default class CustomDftGenerator extends React.Component {
                 label="Ignorar linhas no início do arquivo"
                 defaultValue={ignoreLines}
                 fullWidth
-                onChange={this.handleChangeIgnoreLines}
+                type="number"
+                min="0"
+                onChange={this.handleChange('ignoreLines')}
                 margin="normal"
               />
 
