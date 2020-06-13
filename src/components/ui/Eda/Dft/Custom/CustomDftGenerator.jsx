@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Card, CardContent, CardActions, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, TextField } from '@material-ui/core';
+import { Button, Card, CardContent, CardActions, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, TextField, FormControlLabel, Checkbox } from '@material-ui/core';
 import { Grid } from 'react-flexbox-grid';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { saveAs } from 'file-saver';
@@ -16,15 +16,19 @@ export default class CustomDftGenerator extends React.Component {
       head: '',
       tail: ' *',
       ignoreLines: 0,
+      bases: false,
     }
   }
 
+  handleCheckbox = (event) => {
+    this.setState({ bases: event.target.checked });
+  };
   uploadFile = (event) => {
     this.setState({
       fileReaded: [],
       fileName: [],
     });
-    const { head, tail } = this.state;
+    const { head, tail, bases } = this.state;
     const ignoreLines = this.state.ignoreLines >= 0 ? this.state.ignoreLines : 0;
     let files = event.target.files;
     for (const file of files) {
@@ -44,9 +48,9 @@ export default class CustomDftGenerator extends React.Component {
               if (isNaN(firstTrimmed)) {
                 const st = symbolToAtomicNumber[firstTrimmed];
                 debugger
-                ret += dict(val)[st] + '\r\n\r\n';
+                ret += dict(val, bases)[st] + '\r\n\r\n';
               } else {
-                ret += dict(val)[firstTrimmed] + '\r\n\r\n';
+                ret += dict(val, bases)[firstTrimmed] + '\r\n\r\n';
               }
             }
           }
@@ -73,7 +77,7 @@ export default class CustomDftGenerator extends React.Component {
   }
 
   render() {
-    const { head, tail, ignoreLines } = this.state;
+    const { head, tail, ignoreLines, bases } = this.state;
     return (
       <Layout {...this.props}>
         <Grid fluid>
@@ -106,6 +110,17 @@ export default class CustomDftGenerator extends React.Component {
                 min="0"
                 onChange={this.handleChange('ignoreLines')}
                 margin="normal"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={bases}
+                    onChange={this.handleCheckbox}
+                    name="checkedB"
+                    color="primary"
+                  />
+                }
+                label="Incluir bases"
               />
 
               <input type="file"

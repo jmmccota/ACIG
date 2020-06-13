@@ -1,4 +1,4 @@
-export const dict = (val) => ({
+const dictWBases = (val) => ({
   1:
     `H    1.0    ${val}
 S   3
@@ -168,6 +168,25 @@ D   4
 D   1
   1      0.14978618173          1.0000000`,
 });
+
+const dictWoBases = (val) => ({
+  1:
+    `H    1.0    ${val}`,
+  6:
+    `C    6.0    ${val}`,
+  7:
+    `N    7.0    ${val}`,
+  8:
+    `O    8.0    ${val}`,
+  16:
+    `S    16.0    ${val}`,
+  17:
+    `Cl    17.0    ${val}`,
+  44:
+    `Ru    44.0    ${val}`,
+});
+
+export const dict = (val, bases) => bases ? dictWBases(val) : dictWoBases(val);
 
 export const symbolToAtomicNumber = {
   'H': 1,
