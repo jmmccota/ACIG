@@ -3,10 +3,9 @@ import { Button, Card, CardContent, CardActions, ExpansionPanel, ExpansionPanelS
 import { Grid } from 'react-flexbox-grid';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { saveAs } from 'file-saver';
-import { dict } from './FileCompose';
-import {Layout} from '../../../layout/Layout';
+import { dict, symbolToAtomicNumber } from './FileCompose';
+import { Layout } from '../../../layout/Layout';
 import '../../../layout/CodeStyle.css';
-
 
 export default class CustomDftGenerator extends React.Component {
   constructor(props) {
@@ -21,7 +20,11 @@ export default class CustomDftGenerator extends React.Component {
   }
 
   uploadFile = (event) => {
-    const {head, tail} = this.state;
+    this.setState({
+      fileReaded: [],
+      fileName: [],
+    });
+    const { head, tail } = this.state;
     const ignoreLines = this.state.ignoreLines >= 0 ? this.state.ignoreLines : 0;
     let files = event.target.files;
     for (const file of files) {
@@ -30,14 +33,20 @@ export default class CustomDftGenerator extends React.Component {
         reader.readAsText(file);
         reader.onloadend = (e) => {
           const { result } = reader;
-          let ret = this.state.head + '\r\n';
+          let ret = head + '\r\n';
           const lines = result.split(/[\r\n]+/g).splice(ignoreLines);
           for (const line of lines) {
             const lineSplited = line.replace(/\s\s+/g, ' ').split(' ');
-            if (lineSplited.length > 1) {
-              if(!isNaN(parseInt(lineSplited[0].trim()))){
-                const val = lineSplited.slice(1, lineSplited.length).join('    ')
-                ret += dict(val)[lineSplited[0]] + '\r\n\r\n';
+            debugger
+            if (lineSplited.length > 1 && lineSplited[0].trim() !== '*') {
+              const val = lineSplited.slice(1, lineSplited.length).join('    ')
+              const firstTrimmed = lineSplited[0].trim();
+              if (isNaN(firstTrimmed)) {
+                const st = symbolToAtomicNumber[firstTrimmed];
+                debugger
+                ret += dict(val)[st] + '\r\n\r\n';
+              } else {
+                ret += dict(val)[firstTrimmed] + '\r\n\r\n';
               }
             }
           }
@@ -64,7 +73,7 @@ export default class CustomDftGenerator extends React.Component {
   }
 
   render() {
-    const {head, tail, ignoreLines} = this.state;
+    const { head, tail, ignoreLines } = this.state;
     return (
       <Layout {...this.props}>
         <Grid fluid>
