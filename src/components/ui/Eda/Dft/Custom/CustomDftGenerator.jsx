@@ -34,32 +34,39 @@ export default class CustomDftGenerator extends React.Component {
     for (const file of files) {
       let reader = new FileReader();
       if (file) {
+        const fileName = this.state.fileName;
         reader.readAsText(file);
         reader.onloadend = (e) => {
+          const fileReaded = this.state.fileReaded;
           const { result } = reader;
           let ret = head + '\r\n';
           const lines = result.split(/[\r\n]+/g).splice(ignoreLines);
           for (const line of lines) {
             const lineSplited = line.replace(/\s\s+/g, ' ').split(' ');
-            debugger
             if (lineSplited.length > 1 && lineSplited[0].trim() !== '*') {
               const val = lineSplited.slice(1, lineSplited.length).join('    ')
               const firstTrimmed = lineSplited[0].trim();
               if (isNaN(firstTrimmed)) {
                 const st = symbolToAtomicNumber[firstTrimmed];
-                debugger
-                ret += dict(val, bases)[st] + '\r\n\r\n';
+                ret += dict(val, bases)[st] + '\r\n';
               } else {
-                ret += dict(val, bases)[firstTrimmed] + '\r\n\r\n';
+                ret += dict(val, bases)[firstTrimmed] + '\r\n';
               }
             }
           }
           ret += tail;
-          this.state.fileReaded.push(ret);
+          fileReaded.push(ret);
+          this.setState({
+            fileReaded,
+          })
         };
-        this.state.fileName.push(file.name.split('.').slice(0, -1).join('.'));
+        fileName.push(file.name.split('.').slice(0, -1).join('.'));
+        this.setState({
+          fileName,
+        })
       }
     }
+  
   }
 
   downloadFile = (event) => {
@@ -129,13 +136,17 @@ export default class CustomDftGenerator extends React.Component {
                 onChange={this.uploadFile} />
               {this.state.fileReaded &&
                 <ExpansionPanel>
-                  <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                  <ExpansionPanelSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
                     Preview
                   </ExpansionPanelSummary>
                   <ExpansionPanelDetails>
                     <pre>
                       <code>
-                        {this.state.fileReaded}
+                        {this.state.fileReaded.join('\n\n')}
                       </code>
                     </pre>
                   </ExpansionPanelDetails>
@@ -146,7 +157,7 @@ export default class CustomDftGenerator extends React.Component {
             <CardActions>
               <Button
                 onClick={this.downloadFile}
-                variant="raised"
+                variant="contained"
                 color="primary"
                 disabled={!this.state.fileReaded}
               >Download</Button>

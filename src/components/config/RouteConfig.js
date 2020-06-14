@@ -1,6 +1,6 @@
 // import createHistory from 'history/createBrowserHistory';
 //import createBrowserHistory from 'history/createBrowserHistory';
-import createHashHistory from 'history/createHashHistory';
+import {createHashHistory} from 'history';
 // import { createLogger } from 'redux-logger';
 // import ReactGA from 'react-ga';
 

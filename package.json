@@ -12,26 +12,29 @@
     "url": ""
   },
   "dependencies": {
-    "@material-ui/core": "^3.1.0",
-    "@material-ui/icons": "^3.0.1",
-    "ajv": "^6.5.3",
-    "ajv-keywords": "^3.2.0",
+    "@material-ui/core": "^4.10.2",
+    "@material-ui/icons": "^4.9.1",
+    "ajv": "^6.12.2",
+    "ajv-keywords": "^3.4.1",
     "file-saver": "^2.0.2",
-    "prop-types": "^15.6.2",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-flexbox-grid": "^2.1.2",
-    "react-ga": "2.5.3",
-    "react-router-dom": "^4.3.1"
+    "react-ga": "^3.0.0",
+    "react-router-dom": "^5.2.0"
   },
   "devDependencies": {
-    "css-loader": "^3.5.3",
+    "css-loader": "^3.6.0",
+    "node-sass": "^4.14.1",
     "react-scripts": "^3.4.1",
+    "rimraf": "^3.0.2",
     "style-loader": "^1.2.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "buildrim": "rimraf ./build && react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },

@@ -7,7 +7,6 @@ export const Menu = (props) =>
     <div
       tabIndex={0}
       role="button"
-      onTouchTap={props.handleToggle}
       onKeyDown={props.handleToggle}
     >
       <List>

@@ -171,19 +171,19 @@ D   1
 
 const dictWoBases = (val) => ({
   1:
-    `H    1.0    ${val}`,
+    `H    ${val}`,
   6:
-    `C    6.0    ${val}`,
+    `C    ${val}`,
   7:
-    `N    7.0    ${val}`,
+    `N    ${val}`,
   8:
-    `O    8.0    ${val}`,
+    `O    ${val}`,
   16:
-    `S    16.0    ${val}`,
+    `S    ${val}`,
   17:
-    `Cl    17.0    ${val}`,
+    `Cl    ${val}`,
   44:
-    `Ru    44.0    ${val}`,
+    `Ru    ${val}`,
 });
 
 export const dict = (val, bases) => bases ? dictWBases(val) : dictWoBases(val);

@@ -37,6 +37,7 @@ export default class EdaDftGamessGenerator extends React.Component {
           }
           ret += tail;
           this.state.fileReaded.push(ret);
+          this.forceUpdate();
         };
         this.state.fileName.push(file.name.split('.').slice(0, -1).join('.'));
       }
@@ -96,7 +97,7 @@ export default class EdaDftGamessGenerator extends React.Component {
             <CardActions>
               <Button
                 onClick={this.downloadFile}
-                variant="raised"
+                variant="contained"
                 color="primary"
                 disabled={!this.state.fileReaded}
               >Download</Button>

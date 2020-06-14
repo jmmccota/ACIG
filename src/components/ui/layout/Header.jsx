@@ -1,12 +1,4 @@
 import React from 'react';
-/*import { white } from '@material-ui/core/colors';
-import { withStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import { MenuIcon } from '@material-ui/icons/Menu';*/
-import { white } from '@material-ui/core/colors';
 import { withStyles } from '@material-ui/core/styles';
 import Menu from '@material-ui/icons/Menu';
 import red from '@material-ui/core/colors/red';
@@ -32,10 +24,10 @@ const styles = theme => ({
     color: 'white',
   },
   icon: {
-    margin: theme.spacing.unit * 2,
+    margin: theme.spacing(2),
   },
   iconHover: {
-    margin: theme.spacing.unit * 2,
+    margin: theme.spacing(2),
     '&:hover': {
       color: red[800],
     },
@@ -57,7 +49,7 @@ function Header(props) {
               className={classes.menuButton}
               aria-label="Menu"
             >
-              <Menu color={white} />
+              <Menu color="inherit" />
             </IconButton> : <div />}
           <Typography type="title" color="inherit" className={classes.flex}>
             {props.title}
